@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu ZIZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --green-dark:#0a1f0a;--green-deep:#0d2b0d;--green-mid:#1a4a1a;
+    --green-accent:#2d8b2d;--green-light:#4CAF50;--green-glow:#66ff66;
+    --gold:#d4a843;--gold-light:#f0d68a;--white:#f5f5f0;--cream:#e8e0d0;
+  }
+  @page{size:A4;margin:0;}
+  @media print{html,body{margin:0;padding:0;}}
+  body{
+    font-family:'Poppins',sans-serif;background:var(--green-dark);
+    color:var(--white);width:210mm;margin:0 auto;
+  }
+  .page{
+    width:210mm;height:297mm;padding:4mm 7mm;
+    background:linear-gradient(170deg,var(--green-dark) 0%,#0b240b 30%,var(--green-deep) 60%,#0a1e0a 100%);
+    position:relative;overflow:hidden;page-break-after:always;page-break-inside:avoid;
+    display:flex;flex-direction:column;
+  }
+  .page::before{
+    content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+    background:radial-gradient(ellipse at 20% 20%,rgba(45,139,45,0.08) 0%,transparent 50%),
+               radial-gradient(ellipse at 80% 80%,rgba(212,168,67,0.05) 0%,transparent 50%);
+    pointer-events:none;
+  }
+  .page-border{
+    position:absolute;top:2mm;left:2mm;right:2mm;bottom:2mm;
+    pointer-events:none;z-index:2;
+    border:3px solid rgba(212,168,67,0.35);
+    border-image:repeating-linear-gradient(
+      45deg,
+      rgba(212,168,67,0.4) 0px,rgba(45,139,45,0.3) 2px,
+      rgba(212,168,67,0.5) 4px,transparent 4px,transparent 8px
+    ) 6;
+  }
+  .page-border::before{
+    content:'';position:absolute;top:1.5mm;left:1.5mm;right:1.5mm;bottom:1.5mm;
+    border:1px solid rgba(212,168,67,0.2);
+  }
+  .page-border::after{
+    content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 0L14.5 4.5 12 9 9.5 4.5Z' fill='%23d4a843' opacity='0.3'/%3E%3Cpath d='M0 12L4.5 9.5 9 12 4.5 14.5Z' fill='%232d8b2d' opacity='0.25'/%3E%3Cpath d='M12 15L14.5 19.5 12 24 9.5 19.5Z' fill='%23d4a843' opacity='0.3'/%3E%3Cpath d='M15 12L19.5 9.5 24 12 19.5 14.5Z' fill='%232d8b2d' opacity='0.25'/%3E%3Ccircle cx='12' cy='12' r='1.5' fill='%23d4a843' opacity='0.4'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%23d4a843' opacity='0.3'/%3E%3Ccircle cx='24' cy='0' r='1' fill='%23d4a843' opacity='0.3'/%3E%3Ccircle cx='0' cy='24' r='1' fill='%23d4a843' opacity='0.3'/%3E%3Ccircle cx='24' cy='24' r='1' fill='%23d4a843' opacity='0.3'/%3E%3C/svg%3E") repeat;
+    mask:linear-gradient(transparent 5mm,transparent 5mm),
+         linear-gradient(to right,black 5mm,transparent 5mm,transparent calc(100% - 5mm),black calc(100% - 5mm)),
+         linear-gradient(black 5mm,transparent 5mm,transparent calc(100% - 5mm),black calc(100% - 5mm));
+    mask-composite:add;-webkit-mask-composite:source-over;
+  }
+  /* Zelij corner ornaments */
+  .zelij-corner{
+    position:absolute;width:12mm;height:12mm;pointer-events:none;z-index:3;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M24 2L28 12 38 8 32 18 46 18 36 24 46 30 32 30 38 40 28 36 24 46 20 36 10 40 16 30 2 30 12 24 2 18 16 18 10 8 20 12Z' fill='none' stroke='%23d4a843' stroke-width='0.8' opacity='0.5'/%3E%3Ccircle cx='24' cy='24' r='3' fill='none' stroke='%23d4a843' stroke-width='0.5' opacity='0.4'/%3E%3Ccircle cx='24' cy='24' r='7' fill='none' stroke='%232d8b2d' stroke-width='0.4' opacity='0.3'/%3E%3C/svg%3E") no-repeat center;background-size:contain;
+  }
+  .zelij-tl{top:0;left:0;} .zelij-tr{top:0;right:0;transform:rotate(90deg);}
+  .zelij-bl{bottom:0;left:0;transform:rotate(-90deg);} .zelij-br{bottom:0;right:0;transform:rotate(180deg);}
+  /* HEADER */
+  .header{text-align:center;margin-bottom:2mm;position:relative;z-index:1;}
+  .logo-area{display:flex;align-items:center;justify-content:center;gap:3mm;margin-bottom:1mm;}
+  .logo-icon{
+    width:14mm;height:14mm;border-radius:50%;
+    background:linear-gradient(135deg,var(--green-accent),var(--green-light));
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid var(--gold);box-shadow:0 0 15px rgba(76,175,80,0.3);
+  }
+  .logo-icon span{font-size:22px;}
+  .brand-name{
+    font-family:'Playfair Display',serif;font-size:32px;font-weight:900;
+    background:linear-gradient(135deg,var(--gold),var(--gold-light),var(--gold));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    letter-spacing:5px;text-transform:uppercase;
+  }
+  .brand-sub{
+    font-size:8px;color:var(--gold);letter-spacing:6px;text-transform:uppercase;
+    opacity:0.7;margin-top:-1mm;
+  }
+  .header-line{
+    width:60%;height:1px;margin:1.5mm auto;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  }
+  /* SECTIONS */
+  .menu-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:2mm;position:relative;z-index:1;
+  }
+  .full-width{grid-column:1/-1;}
+  .section{
+    background:rgba(10,31,10,0.5);border:1px solid rgba(76,175,80,0.2);
+    border-radius:6px;padding:1.5mm 2.5mm;margin-bottom:0.5mm;
+    backdrop-filter:blur(2px);
+  }
+  .section-title{
+    display:flex;align-items:center;gap:1.5mm;margin-bottom:1mm;
+    padding-bottom:1mm;border-bottom:1px solid rgba(212,168,67,0.2);
+  }
+  .section-title .icon{font-size:17px;}
+  .section-title h2{
+    font-family:'Playfair Display',serif;font-size:16px;font-weight:800;
+    color:var(--gold);text-transform:uppercase;letter-spacing:2px;
+  }
+  .item{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:0.4mm 0;font-size:12.5px;line-height:1.2;
+  }
+  .item-name{color:#ffffff;font-weight:700;flex:1;}
+  .item-dots{
+    flex:1;border-bottom:2px dotted rgba(212,168,67,0.4);
+    margin:0 1.5mm;min-width:5mm;align-self:end;margin-bottom:2px;
+  }
+  .item-price{
+    color:var(--gold-light);font-weight:900;font-size:14px;white-space:nowrap;
+  }
+  .item-desc{font-size:10px;color:#e8e0d0;font-style:italic;display:block;margin-top:0;opacity:0.9;}
+  /* SPECIAL BOXES */
+  .special-box{
+    background:linear-gradient(135deg,rgba(45,139,45,0.2),rgba(212,168,67,0.1));
+    border:1px solid rgba(212,168,67,0.4);border-radius:6px;padding:1.5mm 2.5mm;margin-bottom:0.5mm;
+  }
+  .special-box .section-title{border-bottom-color:rgba(212,168,67,0.35);}
+  .special-tag{
+    font-size:7px;background:rgba(212,168,67,0.2);color:var(--gold-light);
+    padding:0.5mm 2mm;border-radius:2px;display:inline-block;margin-bottom:1.5mm;
+  }
+  .sub-header{
+    font-size:8px;color:var(--green-light);font-weight:500;
+    margin:1.5mm 0 0.5mm;text-transform:uppercase;letter-spacing:1px;
+  }
+  /* FOOTER */
+  .footer{
+    text-align:center;margin-top:auto;padding:3mm 0;
+    border-top:2px solid rgba(212,168,67,0.3);position:relative;z-index:1;
+  }
+  .footer p{font-size:12px;color:var(--gold-light);letter-spacing:2px;font-weight:700;opacity:1;}
+  /* PRINT */
+  @media print{
+    body{width:210mm;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .page{box-shadow:none;}
+    .no-print{display:none;}
+  }
+  .print-btn{
+    position:fixed;top:10px;right:10px;z-index:999;
+    background:var(--green-accent);color:#fff;border:none;
+    padding:10px 25px;border-radius:6px;cursor:pointer;
+    font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;
+  }
+  .print-btn:hover{background:var(--green-light);}
+  .two-col-items{display:grid;grid-template-columns:1fr 1fr;gap:0 4mm;}
+</style>
+</head>
+<body>
+<button class="print-btn no-print" onclick="window.print()">🖨️ Imprimer</button>
+
+<!-- ============ COVER PAGE ============ -->
+<div class="page" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+<div class="page-border">
+  <div class="zelij-corner zelij-tl"></div>
+  <div class="zelij-corner zelij-tr"></div>
+  <div class="zelij-corner zelij-bl"></div>
+  <div class="zelij-corner zelij-br"></div>
+</div>
+
+<div style="position:relative;z-index:1;text-align:center;width:100%;">
+
+  <!-- Decorative top line -->
+  <div style="width:50%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 12mm;"></div>
+
+  <!-- Titre -->
+  <div style="margin-bottom:8mm;">
+    <p style="font-family:'Lucida Calligraphy','Lucida Handwriting','Segoe Script',cursive;font-size:32px;font-weight:400;color:var(--gold);letter-spacing:1px;line-height:1.2;">
+      Cafe-Restaurant
+    </p>
+    <p style="font-family:'Playfair Display',serif;font-size:68px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:10px;text-transform:uppercase;margin:1mm 0;">
+      ZIZ
+    </p>
+    <p style="font-family:'Lucida Calligraphy','Lucida Handwriting','Segoe Script',cursive;font-size:24px;font-weight:400;color:var(--cream);letter-spacing:2px;">
+      Azilal
+    </p>
+  </div>
+
+  <div style="width:30%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 15mm;"></div>
+
+  <!-- Welcome English -->
+  <p style="font-family:'Segoe Print',cursive;font-size:26px;color:var(--gold);font-weight:700;margin-bottom:6mm;letter-spacing:1px;">
+    Welcome to ZIZ Area
+  </p>
+
+  <!-- Bienvenue French -->
+  <p style="font-family:'Segoe Print',cursive;font-size:22px;color:var(--cream);font-weight:400;margin-bottom:8mm;letter-spacing:1px;">
+    Bienvenue à Espace ZIZ
+  </p>
+
+  <!-- Arabic -->
+  <p style="font-family:'Amiri','Traditional Arabic','serif';font-size:32px;color:var(--gold-light);font-weight:700;direction:rtl;margin-bottom:10mm;">
+    أهلاً بكم في فضاء زيز
+  </p>
+
+  <div style="width:30%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 10mm;"></div>
+
+  <!-- Decorative icons -->
+  <p style="font-size:20px;letter-spacing:8px;opacity:0.5;margin-bottom:6mm;">🍽️ ☕ 🥤 🍕 🍔 🌮</p>
+
+  <!-- Subtitle -->
+  <p style="font-family:'Playfair Display',serif;font-size:12px;color:var(--cream);opacity:0.4;letter-spacing:6px;text-transform:uppercase;">
+    Station & Restaurant
+  </p>
+
+  <!-- Decorative bottom line -->
+  <div style="width:50%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:12mm auto 0;"></div>
+
+</div>
+</div><!-- end cover page -->
+
+<!-- ============ PAGE 1 ============ -->
+<div class="page">
+<div class="page-border">
+  <div class="zelij-corner zelij-tl"></div>
+  <div class="zelij-corner zelij-tr"></div>
+  <div class="zelij-corner zelij-bl"></div>
+  <div class="zelij-corner zelij-br"></div>
+</div>
+
+<div class="header">
+  <div class="logo-area">
+    <div class="logo-icon"><span>⛽</span></div>
+    <div>
+      <div class="brand-name">ZIZ</div>
+      <div class="brand-sub">Station & Restaurant</div>
+    </div>
+    <div class="logo-icon"><span>🍽️</span></div>
+  </div>
+  <div class="header-line"></div>
+</div>
+
+<!-- FTOR -->
+<div class="menu-grid">
+<div class="special-box full-width">
+  <div class="section-title"><span class="icon">⭐</span><h2>Ftor ZIZ — 25 DH</h2></div>
+  <p style="font-size:12px;color:#ffffff;opacity:1;font-weight:600;">Pain · Œufs · Confiture · Miel · Amlou · Olives · Huile d'olive · Yaourt · Thé / Café</p>
+  <div style="height:1mm;"></div>
+  <div class="section-title"><span class="icon">👑</span><h2>Ftor Royal — 42 DH</h2></div>
+  <p style="font-size:12px;color:#ffffff;opacity:1;font-weight:600;">Khli · Thé/Café · Omelette · Jben · Amlou · Huile · Beurre Fumée · Jus d'Orange · Miel · Louiz · Eau minérale · Mshmor · Baguette · Pâtisserie · Olives</p>
+</div>
+
+<!-- OMELETTES -->
+<div class="section">
+  <div class="section-title"><span class="icon">🍳</span><h2>Omelettes</h2></div>
+  <div class="item"><span class="item-name">Omelette Fromage<span class="item-desc">Œuf · Fromage · Pain</span></span><span class="item-dots"></span><span class="item-price">12 DH</span></div>
+  <div class="item"><span class="item-name">Omelette Thon<span class="item-desc">Œuf · Thon · Fromage · Pain</span></span><span class="item-dots"></span><span class="item-price">12 DH</span></div>
+  <div class="item"><span class="item-name">Omelette Khlii<span class="item-desc">Œuf · Thon · Khlii</span></span><span class="item-dots"></span><span class="item-price">15 DH</span></div>
+  <div class="item"><span class="item-name">Omelette Ziz<span class="item-desc">Œuf · Fromage · Thon · Charcuterie</span></span><span class="item-dots"></span><span class="item-price">20 DH</span></div>
+  <div class="item"><span class="item-name">Omelette Spéciale<span class="item-desc">Charcuterie · Légumes</span></span><span class="item-dots"></span><span class="item-price">22 DH</span></div>
+</div>
+
+<!-- LES JUS -->
+<div class="section">
+  <div class="section-title"><span class="icon">🥤</span><h2>Les Jus</h2></div>
+  <div class="item"><span class="item-name">Jus d'Ananas</span><span class="item-dots"></span><span class="item-price">23 DH</span></div>
+  <div class="item"><span class="item-name">Jus de mangue</span><span class="item-dots"></span><span class="item-price">23 DH</span></div>
+  <div class="item"><span class="item-name">Jus de pêche</span><span class="item-dots"></span><span class="item-price">23 DH</span></div>
+  <div class="item"><span class="item-name">Jus d'orange</span><span class="item-dots"></span><span class="item-price">15 DH</span></div>
+  <div class="item"><span class="item-name">Jus de banane</span><span class="item-dots"></span><span class="item-price">13 DH</span></div>
+  <div class="item"><span class="item-name">Panaché</span><span class="item-dots"></span><span class="item-price">23 DH</span></div>
+  <div class="item"><span class="item-name">Jus de Dragon</span><span class="item-dots"></span><span class="item-price">25 DH</span></div>
+  <div class="item"><span class="item-name">Jus de fraise</span><span class="item-dots"></span><span class="item-price">23 DH</span></div>
+  <div class="item"><span class="item-name">Jus de citron</span><span class="item-dots"></span><span class="item-price">20 DH</span></div>
+  <div class="item"><span class="item-name">Jus de kiwi</span><span class="item-dots"></span><span class="item-price">23 DH</span></div>
+  <div class="item"><span class="item-name">Jus de pomme</span><span class="item-dots"></span><span class="item-price">13 DH</span></div>
+  <div class="item"><span class="item-name">Jus d'avocat</span><span class="item-dots"></span><span class="item-price">18 DH</span></div>
+  <div class="item"><span class="item-name">Jus mojito</span><span class="item-dots"></span><span class="item-price">20 DH</span></div>
+</div>
+
+<!-- BOISSONS CHAUDES -->
+<div class="section">
+  <div class="section-title"><span class="icon">☕</span><h2>Boissons Chaudes</h2></div>
+  <div class="item"><span class="item-name">Espresso</span><span class="item-dots"></span><span class="item-price">10 DH</span></div>
+  <div class="item"><span class="item-name">Cappuccino</span><span class="item-dots"></span><span class="item-price">10 DH</span></div>
+  <div class="item"><span class="item-name">Café nes nes</span><span class="item-dots"></span><span class="item-price">10 DH</span></div>
+  <div class="item"><span class="item-name">Espresso au lait</span><span class="item-dots"></span><span class="item-price">10 DH</span></div>
+  <div class="item"><span class="item-name">Café noir</span><span class="item-dots"></span><span class="item-price">10 DH</span></div>
+  <div class="item"><span class="item-name">Café crème</span><span class="item-dots"></span><span class="item-price">10 DH</span></div>
+  <div class="item"><span class="item-name">Chocolat chaud</span><span class="item-dots"></span><span class="item-price">10 DH</span></div>
+</div>
+
+<!-- BOISSONS FROIDES -->
+<div class="section">
+  <div class="section-title"><span class="icon">🧊</span><h2>Boissons Froides</h2></div>
+  <div class="item"><span class="item-name">Red Bull</span><span class="item-dots"></span><span class="item-price">22 DH</span></div>
+  <div class="item"><span class="item-name">Eau minérale 33cl</span><span class="item-dots"></span><span class="item-price">3 DH</span></div>
+  <div class="item"><span class="item-name">Soda</span><span class="item-dots"></span><span class="item-price">12 DH</span></div>
+  <div class="item"><span class="item-name">Eau minérale 0.5L</span><span class="item-dots"></span><span class="item-price">7 DH</span></div>
+  <div class="item"><span class="item-name">Eau minérale 1.5L</span><span class="item-dots"></span><span class="item-price">10 DH</span></div>
+</div>
+
+<!-- PLAT -->
+<div class="section">
+  <div class="section-title"><span class="icon">🍖</span><h2>Plat</h2></div>
+  <div class="item"><span class="item-name">Brochette dinde</span><span class="item-dots"></span><span class="item-price">45 DH</span></div>
+  <div class="item"><span class="item-name">Viande hachée</span><span class="item-dots"></span><span class="item-price">50 DH</span></div>
+  <div class="item"><span class="item-name">Mix</span><span class="item-dots"></span><span class="item-price">60 DH</span></div>
+  <div class="item"><span class="item-name">ZIZ</span><span class="item-dots"></span><span class="item-price">60 DH</span></div>
+  <div class="item"><span class="item-name">Émincé de poulet</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Escalope</span><span class="item-dots"></span><span class="item-price">70 DH</span></div>
+</div>
+
+<!-- COUSCOUS -->
+<div class="special-box">
+  <div class="section-title"><span class="icon">🥘</span><h2>Couscous</h2></div>
+  <div class="special-tag">Le Spécial du Vendredi</div>
+  <div class="item"><span class="item-name">Couscous poulet</span><span class="item-dots"></span><span class="item-price">30 DH</span></div>
+  <div class="item"><span class="item-name">Couscous viande</span><span class="item-dots"></span><span class="item-price">45 DH</span></div>
+  <div class="item"><span class="item-name">Couscous tfaya</span><span class="item-dots"></span><span class="item-price">45 DH</span></div>
+  <div class="item"><span class="item-name">Couscous mix</span><span class="item-dots"></span><span class="item-price">50 DH</span></div>
+  <div class="item"><span class="item-name">Lben 🥛</span><span class="item-dots"></span><span class="item-price">0 DH</span></div>
+</div>
+
+<!-- SALADE -->
+<div class="section">
+  <div class="section-title"><span class="icon">🥗</span><h2>Salade</h2></div>
+  <div class="item"><span class="item-name">Marocaine</span><span class="item-dots"></span><span class="item-price">20 DH</span></div>
+  <div class="item"><span class="item-name">Américain</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">ZIZ</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Mexicain</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">César</span><span class="item-dots"></span><span class="item-price">50 DH</span></div>
+</div>
+</div><!-- end menu-grid -->
+
+<div class="footer">
+  <p>⛽ Station ZIZ — Bon Appétit ! 🍽️</p>
+</div>
+</div><!-- end page 1 -->
+
+<!-- ============ PAGE 2 ============ -->
+<div class="page" style="display:flex;flex-direction:column;">
+<div class="page-border">
+  <div class="zelij-corner zelij-tl"></div>
+  <div class="zelij-corner zelij-tr"></div>
+  <div class="zelij-corner zelij-bl"></div>
+  <div class="zelij-corner zelij-br"></div>
+</div>
+
+<div class="header">
+  <div class="logo-area">
+    <div class="logo-icon"><span>⛽</span></div>
+    <div>
+      <div class="brand-name">ZIZ</div>
+      <div class="brand-sub">Station & Restaurant</div>
+    </div>
+    <div class="logo-icon"><span>🍽️</span></div>
+  </div>
+  <div class="header-line"></div>
+</div>
+
+<div class="menu-grid">
+
+<!-- PANINI -->
+<div class="section">
+  <div class="section-title"><span class="icon">🥖</span><h2>Panini</h2></div>
+  <div class="item"><span class="item-name">Dinde</span><span class="item-dots"></span><span class="item-price">18 DH</span></div>
+  <div class="item"><span class="item-name">Viande hachée</span><span class="item-dots"></span><span class="item-price">20 DH</span></div>
+  <div class="item"><span class="item-name">Mix</span><span class="item-dots"></span><span class="item-price">22 DH</span></div>
+  <div class="item"><span class="item-name">Royal</span><span class="item-dots"></span><span class="item-price">24 DH</span></div>
+  <div class="item"><span class="item-name">ZIZ</span><span class="item-dots"></span><span class="item-price">24 DH</span></div>
+  <div class="item"><span class="item-name">Fruit de mer</span><span class="item-dots"></span><span class="item-price">25 DH</span></div>
+</div>
+
+<!-- TACOS -->
+<div class="section">
+  <div class="section-title"><span class="icon">🌮</span><h2>Tacos</h2></div>
+  <div class="item"><span class="item-name">Viande hachée</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">Dinde</span><span class="item-dots"></span><span class="item-price">32 DH</span></div>
+  <div class="item"><span class="item-name">Mix</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Royal</span><span class="item-dots"></span><span class="item-price">42 DH</span></div>
+  <div class="item"><span class="item-name">ZIZ</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Fruit de mer</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Kabda</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">Cordon bleu</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+</div>
+
+<!-- PIZZA -->
+<div class="section">
+  <div class="section-title"><span class="icon">🍕</span><h2>Pizza</h2></div>
+  <div class="item"><span class="item-name">Margarita</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">4 Fromages</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">Dinde fumé</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">Viande hachée</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Dinde</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">Mix</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Thon</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">4 Saison</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">ZIZ</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Calzone</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">Fruit de mer</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+</div>
+
+<!-- SANDWICH -->
+<div class="section">
+  <div class="section-title"><span class="icon">🥪</span><h2>Sandwich</h2></div>
+  <div class="item"><span class="item-name">Dinde</span><span class="item-dots"></span><span class="item-price">18 DH</span></div>
+  <div class="item"><span class="item-name">Viande hachée</span><span class="item-dots"></span><span class="item-price">20 DH</span></div>
+  <div class="item"><span class="item-name">Mix</span><span class="item-dots"></span><span class="item-price">22 DH</span></div>
+  <div class="item"><span class="item-name">Américain</span><span class="item-dots"></span><span class="item-price">34 DH</span></div>
+  <div class="item"><span class="item-name">Fruit de mer</span><span class="item-dots"></span><span class="item-price">25 DH</span></div>
+  <div class="item"><span class="item-name">Royal</span><span class="item-dots"></span><span class="item-price">25 DH</span></div>
+</div>
+
+<!-- BURGER -->
+<div class="section">
+  <div class="section-title"><span class="icon">🍔</span><h2>Burger</h2></div>
+  <div class="item"><span class="item-name">Chicken</span><span class="item-dots"></span><span class="item-price">30 DH</span></div>
+  <div class="item"><span class="item-name">Cheeseburger</span><span class="item-dots"></span><span class="item-price">35 DH</span></div>
+  <div class="item"><span class="item-name">ZIZ</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Mix</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+  <div class="item"><span class="item-name">Royal</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+</div>
+
+<!-- FOUR & SNACK -->
+<div class="special-box">
+  <div class="section-title"><span class="icon">🔥</span><h2>Four & Snack</h2></div>
+  <div class="item"><span class="item-name">Pastichio ZIZ</span><span class="item-dots"></span><span class="item-price">45 DH</span></div>
+  <div class="item"><span class="item-name">Gratin Royal / Ziz</span><span class="item-dots"></span><span class="item-price">40 DH</span></div>
+</div>
+
+</div><!-- end menu-grid -->
+
+<!-- SLOGAN -->
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:1;text-align:center;padding:8mm 12mm;">
+  <div style="width:40%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin-bottom:5mm;"></div>
+  <p style="font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--gold);letter-spacing:3px;line-height:1.3;text-transform:uppercase;">
+    L'Excellence<br>du Goût Marocain
+  </p>
+  <p style="font-family:'Playfair Display',serif;font-size:14px;font-weight:400;color:var(--cream);opacity:0.6;margin-top:3mm;letter-spacing:5px;font-style:italic;">
+    — Depuis toujours —
+  </p>
+  <div style="width:40%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin-top:5mm;"></div>
+  <p style="font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--gold-light);margin-top:5mm;letter-spacing:2px;opacity:0.15;">
+    ★ ZIZ ★
+  </p>
+</div>
+
+<div class="footer" style="position:relative;z-index:1;">
+  <div class="header-line" style="margin-bottom:1.5mm;"></div>
+  <p style="font-size:9px;color:var(--gold);letter-spacing:3px;font-weight:600;">بالصحة و الراحة</p>
+  <p style="margin-top:0.5mm;">⛽ Station ZIZ — Bon Appétit ! 🍽️</p>
+</div>
+</div><!-- end page 2 -->
+
+</body>
+</html>
